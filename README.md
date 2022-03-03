@@ -2,7 +2,6 @@ SparkplugNet
 ====================================
 
 SparkplugNet is a library to use the Sparkplug industrial IoT (IIoT) standard in .Net. It uses [MQTTnet](https://github.com/chkr1011/MQTTnet) in the background.
-The assembly was written and tested in .Net 5.0.
 
 [![Build status](https://ci.appveyor.com/api/projects/status/w6pu8fcav4n7651t?svg=true)](https://ci.appveyor.com/project/SeppPenner/sparkplugnet)
 [![GitHub issues](https://img.shields.io/github/issues/SeppPenner/SparkplugNet.svg)](https://github.com/SeppPenner/SparkplugNet/issues)
@@ -14,20 +13,21 @@ The assembly was written and tested in .Net 5.0.
 [![Known Vulnerabilities](https://snyk.io/test/github/SeppPenner/SparkplugNet/badge.svg)](https://snyk.io/test/github/SeppPenner/SparkplugNet)
 [![Gitter](https://badges.gitter.im/SparkplugNet/community.svg)](https://gitter.im/SparkplugNet/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 
+<!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
+[![All Contributors](https://img.shields.io/badge/all_contributors-2-orange.svg?style=flat-square)](#contributors-)
+<!-- ALL-CONTRIBUTORS-BADGE:END -->
+
 ## Available for
-* NetFramework 4.6.2
-* NetFramework 4.7
-* NetFramework 4.7.2
-* NetFramework 4.8
 * NetStandard 2.0
 * NetStandard 2.1
 * NetCore 3.1
 * Net 5.0
+* Net 6.0
 
 ## Net Core and Net Framework latest and LTS versions
 * https://dotnet.microsoft.com/download/dotnet-framework
 * https://dotnet.microsoft.com/download/dotnet-core
-* https://dotnet.microsoft.com/download/dotnet/5.0
+* https://dotnet.microsoft.com/download/dotnet
 
 ## Structure
 Sparkplug distinguishes between 5 different types of logical parts:
@@ -55,6 +55,9 @@ For basic usage, see the [How to use file](./HowToUse.md) or the [example projec
 * [HiveMQ CE](https://github.com/hivemq/hivemq-community-edition) with the [Sparkplug InfluxDB Extension](https://github.com/hivemq/hivemq-sparkplug-influxdb-extension/) for Sparkplug testing.
 * [Ignition](https://inductiveautomation.com/ignition/) for Sparkplug testing.
 
+## Recommended clients
+* [MQTT.fx](http://www.mqttfx.jensd.de/) has a Sparkplug data decoder. The binaries for version 1.7.1 can also be taken from https://github.com/SeppPenner/mqttfx171-backup (The software is now under development by a company and requires a license for version 1.7.1+).
+
 ## Supported Sparkplug standards
 * Version 2.2, spAv1.0 and spBv1.0.
 
@@ -77,3 +80,24 @@ Change history
 --------------
 
 See the [Changelog](https://github.com/SeppPenner/SparkplugNet/blob/master/Changelog.md).
+
+## Contributors ✨
+
+Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
+
+<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
+<!-- prettier-ignore-start -->
+<!-- markdownlint-disable -->
+<table>
+  <tr>
+    <td align="center"><a href="https://franzhuber23.blogspot.de/"><img src="https://avatars.githubusercontent.com/u/9639361?v=4?s=100" width="100px;" alt=""/><br /><sub><b>HansM</b></sub></a><br /><a href="https://github.com/SeppPenner/SparkplugNet/commits?author=SeppPenner" title="Code">💻</a> <a href="https://github.com/SeppPenner/SparkplugNet/commits?author=SeppPenner" title="Documentation">📖</a> <a href="#example-SeppPenner" title="Examples">💡</a> <a href="#maintenance-SeppPenner" title="Maintenance">🚧</a> <a href="#projectManagement-SeppPenner" title="Project Management">📆</a> <a href="https://github.com/SeppPenner/SparkplugNet/commits?author=SeppPenner" title="Tests">⚠️</a></td>
+    <td align="center"><a href="https://github.com/insightdocs"><img src="https://avatars.githubusercontent.com/u/23101485?v=4?s=100" width="100px;" alt=""/><br /><sub><b>insightdocs</b></sub></a><br /><a href="https://github.com/SeppPenner/SparkplugNet/commits?author=insightdocs" title="Tests">⚠️</a></td>
+  </tr>
+</table>
+
+<!-- markdownlint-restore -->
+<!-- prettier-ignore-end -->
+
+<!-- ALL-CONTRIBUTORS-LIST:END -->
+
+This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!
