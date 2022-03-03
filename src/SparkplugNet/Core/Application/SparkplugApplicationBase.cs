@@ -13,6 +13,7 @@ namespace SparkplugNet.Core.Application
     using System.Collections.Concurrent;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Security.Authentication;
     using System.Threading;
     using System.Threading.Tasks;
 
@@ -25,7 +26,7 @@ namespace SparkplugNet.Core.Application
 
     using SparkplugNet.Core.Enumerations;
     using SparkplugNet.Core.Extensions;
-
+    using SparkplugNet.VersionB.Data;
     using VersionAData = VersionA.Data;
     using VersionAProtoBuf = VersionA.ProtoBuf;
     using VersionBData = VersionB.Data;
@@ -42,6 +43,7 @@ namespace SparkplugNet.Core.Application
         /// The options.
         /// </summary>
         private SparkplugApplicationOptions? options;
+        private List<Metric> metricCache;
 
         /// <inheritdoc cref="SparkplugBase{T}"/>
         /// <summary>
@@ -483,6 +485,7 @@ namespace SparkplugNet.Core.Application
                                 {
                                     var convertedPayload = PayloadConverter.ConvertVersionBPayload(payloadVersionB);
                                     this.HandleMessagesForVersionB(topic, convertedPayload);
+                                    this.MessageReceived?.Invoke(topic, convertedPayload);
                                 }
 
                                 break;
@@ -565,7 +568,7 @@ namespace SparkplugNet.Core.Application
 
             foreach (var metric in metricsWithoutSequenceMetric.Where(metric => knownMetrics.FirstOrDefault(m => m.Name == metric.Name) == default))
             {
-                throw new Exception($"Metric {metric.Name} is an unknown metric.");
+                this.KnownMetrics.Add(metric as T);
             }
 
             if (topic.Contains(SparkplugMessageType.NodeBirth.GetDescription()))
@@ -621,10 +624,19 @@ namespace SparkplugNet.Core.Application
                     throw new InvalidCastException("The metric cast didn't work properly.");
                 }
 
-                metricState.Metrics[payloadMetric.Name] = convertedMetric;
+                metricState.Metrics[payloadMetric.Alias.ToString()] = convertedMetric;
             }
 
-            this.DeviceStates[deviceId] = metricState;
+            if(!this.DeviceStates.Keys.Contains(deviceId))
+            {
+                this.DeviceStates.TryAdd(deviceId, metricState);
+            }
+
+            var metrics = this.DeviceStates[deviceId].Metrics;
+            foreach (KeyValuePair<string, T> metric in metricState.Metrics)
+            {
+                metrics[metric.Key] = metric.Value;
+            }
         }
 
         /// <summary>
@@ -749,7 +761,12 @@ namespace SparkplugNet.Core.Application
 
             if (this.options.UseTls)
             {
-                builder.WithTls();
+                builder.WithTls(new MqttClientOptionsBuilderTlsParameters()
+                {
+                    UseTls = true,
+                    AllowUntrustedCertificates = true,
+                    SslProtocol = SslProtocols.None
+                });
             }
 
             if (this.options.WebSocketParameters is null)

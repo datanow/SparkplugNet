@@ -20,6 +20,7 @@ namespace SparkplugNet.Core
 
     using SparkplugNet.Core.Enumerations;
     using SparkplugNet.Core.Messages;
+    using SparkplugNet.VersionB.Data;
 
     using VersionA = VersionA.Data;
     using VersionB = VersionB.Data;
@@ -56,7 +57,9 @@ namespace SparkplugNet.Core
 
             this.NameSpace = this.KnownMetrics switch
             {
+
                 List<VersionA.KuraMetric> => SparkplugNamespace.VersionA,
+
                 List<VersionB.Metric> => SparkplugNamespace.VersionB,
                 _ => SparkplugNamespace.VersionB
             };
@@ -106,6 +109,11 @@ namespace SparkplugNet.Core
         /// Gets or sets the callback for the disconnected event. Indicates that metrics might be stale.
         /// </summary>
         public Action? OnDisconnected { get; set; } = null;
+
+        /// <summary>
+        /// Gets or sets the callback for the device command received event.
+        /// </summary>
+        public Action<string, Payload>? MessageReceived { get; set; } = null;
 
         /// <summary>
         /// Resets the last sequence number.

@@ -12,6 +12,7 @@ namespace SparkplugNet.Core.Node
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Security.Authentication;
     using System.Text;
     using System.Threading;
     using System.Threading.Tasks;
@@ -391,7 +392,12 @@ namespace SparkplugNet.Core.Node
 
             if (this.options.UseTls)
             {
-                builder.WithTls();
+                builder.WithTls(new MqttClientOptionsBuilderTlsParameters()
+                {
+                    UseTls = true,
+                    AllowUntrustedCertificates = true,
+                    SslProtocol = SslProtocols.None
+                });
             }
 
             if (this.options.WebSocketParameters is null)

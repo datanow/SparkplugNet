@@ -7,6 +7,7 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
+
 namespace SparkplugNet.Core
 {
     using System.Linq;
@@ -421,6 +422,11 @@ namespace SparkplugNet.Core
         /// <returns>The <see cref="VersionBData.DataSet"/>.</returns>
         private static VersionBData.DataSet ConvertVersionBDataSet(VersionBProtoBuf.ProtoBufPayload.DataSet dataSet)
         {
+            if(dataSet == null)
+            {
+                return null;
+            }
+
             return new VersionBData.DataSet
             {
                 Details = dataSet.Details,
@@ -634,6 +640,10 @@ namespace SparkplugNet.Core
         /// <returns>The <see cref="VersionBData.MetaData"/>.</returns>
         private static VersionBData.MetaData ConvertVersionBMetaData(VersionBProtoBuf.ProtoBufPayload.MetaData metaData)
         {
+            if(metaData == null)
+            {
+                return null;
+            }
             return new VersionBData.MetaData
             {
                 Seq = metaData.Seq,
@@ -655,6 +665,10 @@ namespace SparkplugNet.Core
         /// <returns>The <see cref="VersionBProtoBuf.ProtoBufPayload.MetaData"/>.</returns>
         private static VersionBProtoBuf.ProtoBufPayload.MetaData ConvertVersionBMetaData(VersionBData.MetaData metaData)
         {
+            if(metaData == null)
+            {
+                return null;
+            }
             return new VersionBProtoBuf.ProtoBufPayload.MetaData
             {
                 Seq = metaData.Seq,
@@ -676,6 +690,11 @@ namespace SparkplugNet.Core
         /// <returns>The <see cref="VersionBData.Template"/>.</returns>
         private static VersionBData.Template ConvertVersionBTemplate(VersionBProtoBuf.ProtoBufPayload.Template template)
         {
+
+            if(template == null)
+            {
+                return null;
+            }
             return new VersionBData.Template
             {
                 Metrics = template.Metrics.Select(ConvertVersionBMetric).ToList(),
@@ -928,7 +947,7 @@ namespace SparkplugNet.Core
                 DataType = metric.Datatype,
                 ExtensionValue = new VersionBData.MetricValueExtension
                 {
-                    Details = metric.ExtensionValue.Details
+                    Details = metric.ExtensionValue?.Details
                 },
                 FloatValue = metric.FloatValue,
                 IntValue = metric.IntValue,
@@ -1310,6 +1329,10 @@ namespace SparkplugNet.Core
         /// <returns>The <see cref="VersionBData.PropertySet"/>.</returns>
         private static VersionBData.PropertySet ConvertVersionBPropertySet(VersionBProtoBuf.ProtoBufPayload.PropertySet propertySet)
         {
+            if(propertySet == null)
+            {
+                return null;
+            }
             return new VersionBData.PropertySet
             {
                 Details = propertySet.Details,
@@ -1325,6 +1348,10 @@ namespace SparkplugNet.Core
         /// <returns>The <see cref="VersionBProtoBuf.ProtoBufPayload.PropertySet"/>.</returns>
         private static VersionBProtoBuf.ProtoBufPayload.PropertySet ConvertVersionBPropertySet(VersionBData.PropertySet propertySet)
         {
+            if(propertySet == null)
+            {
+                return null;
+            }
             return new VersionBProtoBuf.ProtoBufPayload.PropertySet
             {
                 Details = propertySet.Details,
