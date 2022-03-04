@@ -21,4 +21,12 @@ public class SparkplugApplication : SparkplugApplicationBase<VersionBData.Metric
     public SparkplugApplication(List<VersionBData.Metric> knownMetrics, ILogger? logger = null) : base(knownMetrics, logger)
     {
     }
+
+    /// <inheritdoc cref="SparkplugApplicationBase{T}"/>
+    /// <summary>
+    /// Initializes a new instance of the <see cref="SparkplugApplication"/> class.
+    /// </summary>
+    public SparkplugApplication() : base(new List<Data.Metric>(), null)
+    {
+    }
 }

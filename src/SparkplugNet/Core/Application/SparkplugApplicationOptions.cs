@@ -48,8 +48,8 @@ public class SparkplugApplicationOptions
         this.ClientId = clientId;
         this.UserName = userName;
         this.Password = password;
-        this.UseTls = useTls;
         this.ScadaHostIdentifier = scadaHostIdentifier;
+        this.UseTls = useTls;
         this.ReconnectInterval = reconnectInterval;
         this.IsPrimaryApplication = isPrimaryApplication;
         this.WebSocketParameters = webSocketParameters;
@@ -57,6 +57,10 @@ public class SparkplugApplicationOptions
         this.CancellationToken = cancellationToken ?? SystemCancellationToken.None;
     }
 
+    public SparkplugApplicationOptions()
+    {
+
+    }
     /// <summary>
     /// Gets or sets the broker address.
     /// </summary>
@@ -85,7 +89,7 @@ public class SparkplugApplicationOptions
     /// <summary>
     /// Gets or sets a value indicating whether TLS should be used or not.
     /// </summary>
-    public bool UseTls { get; set; }
+    public bool UseTls { get; set; } = true;
 
     /// <summary>
     /// Gets or sets the SCADA host identifier.
@@ -95,26 +99,26 @@ public class SparkplugApplicationOptions
     /// <summary>
     /// Gets or sets the reconnect interval.
     /// </summary>
-    public TimeSpan ReconnectInterval { get; set; }
+    public TimeSpan ReconnectInterval { get; set; } = TimeSpan.FromSeconds(30);
 
     /// <summary>
     /// Gets or sets a value indicating whether the application the primary application or not.
     /// If this value is set to <c>true</c>, the application sends STATE messages, else not.
     /// </summary>
-    public bool IsPrimaryApplication { get; set; }
+    public bool IsPrimaryApplication { get; set; } = false;
 
     /// <summary>
     /// Gets or sets the WebSocket parameters.
     /// </summary>
-    public MqttClientOptionsBuilderWebSocketParameters? WebSocketParameters { get; set; }
+    public MqttClientOptionsBuilderWebSocketParameters? WebSocketParameters { get; set; } = null;
 
     /// <summary>
     /// Gets or sets the proxy options.
     /// </summary>
-    public MqttClientWebSocketProxyOptions? ProxyOptions { get; set; }
+    public MqttClientWebSocketProxyOptions? ProxyOptions { get; set; } = null;
 
     /// <summary>
     /// Gets or sets the cancellation token.
     /// </summary>
-    public CancellationToken? CancellationToken { get; set; }
+    public CancellationToken? CancellationToken { get; set; } = null;
 }
