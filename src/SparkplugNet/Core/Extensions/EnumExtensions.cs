@@ -32,4 +32,32 @@ internal static class EnumExtensions
         var attributes = memberInfo[0].GetCustomAttributes(typeof(DescriptionAttribute), false);
         return attributes.Length > 0 ? ((DescriptionAttribute)attributes.ElementAt(0)).Description : @enum.ToString();
     }
+
+    /// <summary>
+    /// Gets an Enum value from a string description
+    /// </summary>
+    /// <typeparam name="T">The Enum Type</typeparam>
+    /// <param name="description">A Description decorator value</param>
+    /// <returns>The Enum value</returns>
+    /// <exception cref="ArgumentException">Throws if the description value was not found on the target Enum</exception>
+    public static T GetValueFromDescription<T>(string description) where T : Enum
+    {
+        foreach (var field in typeof(T).GetFields())
+        {
+            if (Attribute.GetCustomAttribute(field,
+            typeof(DescriptionAttribute)) is DescriptionAttribute attribute)
+            {
+                if (attribute.Description == description)
+                    return (T)field.GetValue(null);
+            }
+            else
+            {
+                if (field.Name == description)
+                    return (T)field.GetValue(null);
+            }
+        }
+
+        throw new ArgumentException("Not found.", nameof(description));
+        // Or return default(T);
+    }
 }

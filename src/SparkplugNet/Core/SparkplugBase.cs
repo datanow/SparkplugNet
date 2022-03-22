@@ -9,29 +9,29 @@
 
 namespace SparkplugNet.Core;
 
-    using MQTTnet;
-    using MQTTnet.Client;
-    using MQTTnet.Client.Options;
+using MQTTnet;
+using MQTTnet.Client;
+using MQTTnet.Client.Options;
 
-    using Serilog;
+using Serilog;
 
-    using SparkplugNet.Core.Enumerations;
-    using SparkplugNet.Core.Messages;
-    using SparkplugNet.VersionB.Data;
+using SparkplugNet.Core.Enumerations;
+using SparkplugNet.Core.Messages;
+using SparkplugNet.VersionB.Data;
 
-    using VersionA = VersionA.Data;
-    using VersionB = VersionB.Data;
+using VersionA = VersionA.Data;
+using VersionB = VersionB.Data;
 
+/// <summary>
+/// A base class for all Sparkplug applications, nodes and devices.
+/// </summary>
+/// <typeparam name="T">The type parameter.</typeparam>
+public class SparkplugBase<T> where T : class, new()
+{
     /// <summary>
-    /// A base class for all Sparkplug applications, nodes and devices.
+    /// The message generator.
     /// </summary>
-    /// <typeparam name="T">The type parameter.</typeparam>
-    public class SparkplugBase<T> where T : class, new()
-    {
-        /// <summary>
-        /// The message generator.
-        /// </summary>
-        internal readonly SparkplugMessageGenerator MessageGenerator;
+    internal readonly SparkplugMessageGenerator MessageGenerator;
 
     /// <summary>
     /// The MQTT client.
@@ -47,14 +47,14 @@ namespace SparkplugNet.Core;
     {
         this.KnownMetrics = knownMetrics;
 
-            this.NameSpace = this.KnownMetrics switch
-            {
+        this.NameSpace = this.KnownMetrics switch
+        {
 
-                List<VersionA.KuraMetric> => SparkplugNamespace.VersionA,
+            List<VersionA.KuraMetric> => SparkplugNamespace.VersionA,
 
-                List<VersionB.Metric> => SparkplugNamespace.VersionB,
-                _ => SparkplugNamespace.VersionB
-            };
+            List<VersionB.Metric> => SparkplugNamespace.VersionB,
+            _ => SparkplugNamespace.VersionB
+        };
 
         this.Client = new MqttFactory().CreateMqttClient();
         this.Logger = logger;
@@ -102,18 +102,18 @@ namespace SparkplugNet.Core;
     /// </summary>
     public Action? OnDisconnected { get; set; } = null;
 
-        /// <summary>
-        /// Gets or sets the callback for the device command received event.
-        /// </summary>
-        public Action<string, Payload>? MessageReceived { get; set; } = null;
+    /// <summary>
+    /// Gets or sets the callback for the device command received event.
+    /// </summary>
+    public Action<string, Payload> MessageReceived { get; set; }
 
-        /// <summary>
-        /// Resets the last sequence number.
-        /// </summary>
-        internal void ResetLastSequenceNumber()
-        {
-            this.LastSequenceNumber = 0;
-        }
+    /// <summary>
+    /// Resets the last sequence number.
+    /// </summary>
+    internal void ResetLastSequenceNumber()
+    {
+        this.LastSequenceNumber = 0;
+    }
 
     /// <summary>
     /// Increments the last sequence number.

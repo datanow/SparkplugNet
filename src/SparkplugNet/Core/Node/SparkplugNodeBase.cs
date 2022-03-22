@@ -289,7 +289,8 @@ namespace SparkplugNet.Core.Node
                                     {
                                         if (convertedPayload is not T convertedPayloadVersionA)
                                         {
-                                            throw new InvalidCastException("The metric cast didn't work properly.");
+                                            this.Logger?.Error("The metric cast didn't work properly.");
+                                            return;
                                         }
 
                                         this.DeviceCommandReceived?.Invoke(convertedPayloadVersionA);
@@ -299,7 +300,8 @@ namespace SparkplugNet.Core.Node
                                     {
                                         if (convertedPayload is not T convertedPayloadVersionA)
                                         {
-                                            throw new InvalidCastException("The metric cast didn't work properly.");
+                                            this.Logger?.Error("The metric cast didn't work properly.");
+                                            return;
                                         }
 
                                         this.NodeCommandReceived?.Invoke(convertedPayloadVersionA);
@@ -319,7 +321,8 @@ namespace SparkplugNet.Core.Node
                                     {
                                         if (convertedPayload is not T convertedPayloadVersionB)
                                         {
-                                            throw new InvalidCastException("The metric cast didn't work properly.");
+                                            this.Logger?.Error("The metric cast didn't work properly.");
+                                            return;
                                         }
 
                                         this.DeviceCommandReceived?.Invoke(convertedPayloadVersionB);
@@ -329,7 +332,8 @@ namespace SparkplugNet.Core.Node
                                     {
                                         if (convertedPayload is not T convertedPayloadVersionB)
                                         {
-                                            throw new InvalidCastException("The metric cast didn't work properly.");
+                                            this.Logger?.Error("The metric cast didn't work properly.");
+                                            return;
                                         }
 
                                         this.NodeCommandReceived?.Invoke(convertedPayloadVersionB);
@@ -374,7 +378,7 @@ namespace SparkplugNet.Core.Node
             var builder = new MqttClientOptionsBuilder()
                 .WithClientId(this.options.ClientId)
                 .WithCredentials(this.options.UserName, this.options.Password)
-                .WithCleanSession(false)
+                //.WithCleanSession(false)
                 .WithProtocolVersion(MqttProtocolVersion.V311);
 
             if (this.options.UseTls)

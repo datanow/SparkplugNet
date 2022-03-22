@@ -485,7 +485,7 @@ namespace SparkplugNet.Core.Application
                                 {
                                     var convertedPayload = PayloadConverter.ConvertVersionBPayload(payloadVersionB);
                                     this.HandleMessagesForVersionB(topic, convertedPayload);
-                                    this.MessageReceived?.Invoke(topic, convertedPayload);
+                                    base.MessageReceived?.Invoke(topic, convertedPayload);
                                 }
 
                                 break;
@@ -515,37 +515,31 @@ namespace SparkplugNet.Core.Application
 
             foreach (var metric in metricsWithoutSequenceMetric.Where(metric => knownMetrics.FirstOrDefault(m => m.Name == metric.Name) == default))
             {
-                throw new Exception($"Metric {metric.Name} is an unknown metric.");
+                this.KnownMetrics.Add(metric as T);
             }
 
-            if (topic.Contains(SparkplugMessageType.NodeBirth.GetDescription()))
-            {
-                this.HandleNodeMessage(topic, payload, SparkplugMetricStatus.Online);
-            }
+            var topicObj = new SparkplugTopic(topic);
 
-            if (topic.Contains(SparkplugMessageType.NodeDeath.GetDescription()))
+            switch (topicObj.MessageType)
             {
-                this.HandleNodeMessage(topic, payload, SparkplugMetricStatus.Offline);
-            }
-
-            if (topic.Contains(SparkplugMessageType.DeviceBirth.GetDescription()))
-            {
-                this.HandleDeviceMessage(topic, payload, SparkplugMetricStatus.Online);
-            }
-
-            if (topic.Contains(SparkplugMessageType.DeviceDeath.GetDescription()))
-            {
-                this.HandleDeviceMessage(topic, payload, SparkplugMetricStatus.Offline);
-            }
-
-            if (topic.Contains(SparkplugMessageType.NodeData.GetDescription()))
-            {
-                this.HandleNodeMessage(topic, payload, SparkplugMetricStatus.Online);
-            }
-
-            if (topic.Contains(SparkplugMessageType.DeviceData.GetDescription()))
-            {
-                this.HandleDeviceMessage(topic, payload, SparkplugMetricStatus.Online);
+                case SparkplugMessageType.DeviceData:
+                    this.HandleDeviceMessage(topic, payload, SparkplugMetricStatus.Online);
+                    break;
+                case SparkplugMessageType.NodeData:
+                    this.HandleNodeMessage(topic, payload, SparkplugMetricStatus.Online);
+                    break;
+                case SparkplugMessageType.DeviceDeath:
+                    this.HandleDeviceMessage(topic, payload, SparkplugMetricStatus.Offline);
+                    break;
+                case SparkplugMessageType.DeviceBirth:
+                    this.HandleDeviceMessage(topic, payload, SparkplugMetricStatus.Online);
+                    break;
+                case SparkplugMessageType.NodeDeath:
+                    this.HandleNodeMessage(topic, payload, SparkplugMetricStatus.Offline);
+                    break;
+                case SparkplugMessageType.NodeBirth:
+                    this.HandleNodeMessage(topic, payload, SparkplugMetricStatus.Online);
+                    break;
             }
         }
 
@@ -571,35 +565,30 @@ namespace SparkplugNet.Core.Application
                 this.KnownMetrics.Add(metric as T);
             }
 
-            if (topic.Contains(SparkplugMessageType.NodeBirth.GetDescription()))
-            {
-                this.HandleNodeMessage(topic, payload, SparkplugMetricStatus.Online);
-            }
+            var topicObj = new SparkplugTopic(topic);
 
-            if (topic.Contains(SparkplugMessageType.NodeDeath.GetDescription()))
+            switch (topicObj.MessageType)
             {
-                this.HandleNodeMessage(topic, payload, SparkplugMetricStatus.Offline);
+                case SparkplugMessageType.DeviceData:
+                    this.HandleDeviceMessage(topic, payload, SparkplugMetricStatus.Online);
+                    break;
+                case SparkplugMessageType.NodeData:
+                    this.HandleNodeMessage(topic, payload, SparkplugMetricStatus.Online);
+                    break;
+                case SparkplugMessageType.DeviceDeath:
+                    this.HandleDeviceMessage(topic, payload, SparkplugMetricStatus.Offline);
+                    break;
+                case SparkplugMessageType.DeviceBirth:
+                    this.HandleDeviceMessage(topic, payload, SparkplugMetricStatus.Online);
+                    break;
+                case SparkplugMessageType.NodeDeath:
+                    this.HandleNodeMessage(topic, payload, SparkplugMetricStatus.Offline);
+                    break;
+                case SparkplugMessageType.NodeBirth:
+                    this.HandleNodeMessage(topic, payload, SparkplugMetricStatus.Online);
+                    break;
             }
-
-            if (topic.Contains(SparkplugMessageType.DeviceBirth.GetDescription()))
-            {
-                this.HandleDeviceMessage(topic, payload, SparkplugMetricStatus.Online);
-            }
-
-            if (topic.Contains(SparkplugMessageType.DeviceDeath.GetDescription()))
-            {
-                this.HandleDeviceMessage(topic, payload, SparkplugMetricStatus.Offline);
-            }
-
-            if (topic.Contains(SparkplugMessageType.NodeData.GetDescription()))
-            {
-                this.HandleNodeMessage(topic, payload, SparkplugMetricStatus.Online);
-            }
-
-            if (topic.Contains(SparkplugMessageType.DeviceData.GetDescription()))
-            {
-                this.HandleDeviceMessage(topic, payload, SparkplugMetricStatus.Online);
-            }
+            
         }
 
         /// <summary>
@@ -756,7 +745,7 @@ namespace SparkplugNet.Core.Application
             var builder = new MqttClientOptionsBuilder()
                 .WithClientId(this.options.ClientId)
                 .WithCredentials(this.options.UserName, this.options.Password)
-                .WithCleanSession(false)
+                //.WithCleanSession(false)
                 .WithProtocolVersion(MqttProtocolVersion.V311);
 
             if (this.options.UseTls)

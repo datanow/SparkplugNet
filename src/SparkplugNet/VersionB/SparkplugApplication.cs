@@ -26,7 +26,7 @@ public class SparkplugApplication : SparkplugApplicationBase<VersionBData.Metric
     /// <summary>
     /// Initializes a new instance of the <see cref="SparkplugApplication"/> class.
     /// </summary>
-    public SparkplugApplication() : base(new List<Data.Metric>(), null)
+    public SparkplugApplication(ILogger? logger = null) : base(new List<Data.Metric>(), logger)
     {
     }
 }
