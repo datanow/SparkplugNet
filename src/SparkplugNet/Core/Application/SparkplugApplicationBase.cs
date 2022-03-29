@@ -297,7 +297,7 @@ namespace SparkplugNet.Core.Application
                 metrics,
                 this.LastSequenceNumber,
                 this.LastSessionNumber,
-                DateTimeOffset.Now);
+                DateTimeOffset.Now.ToUniversalTime());
 
             // Increment the sequence number.
             this.IncrementLastSequenceNumber();
@@ -341,7 +341,7 @@ namespace SparkplugNet.Core.Application
                 metrics,
                 this.LastSequenceNumber,
                 this.LastSessionNumber,
-                DateTimeOffset.Now);
+                DateTimeOffset.Now.ToUniversalTime());
 
             // Debug output.
             this.Logger?.Debug("NDATA Message: {@DataMessage}", dataMessage);
@@ -390,7 +390,7 @@ namespace SparkplugNet.Core.Application
                 metrics,
                 this.LastSequenceNumber,
                 this.LastSessionNumber,
-                DateTimeOffset.Now);
+                DateTimeOffset.Now.ToUniversalTime());
 
             // Debug output.
             this.Logger?.Debug("NDATA Message: {@DataMessage}", dataMessage);
@@ -439,7 +439,7 @@ namespace SparkplugNet.Core.Application
                 metrics,
                 this.LastSequenceNumber,
                 this.LastSessionNumber,
-                DateTimeOffset.Now);
+                DateTimeOffset.Now.ToUniversalTime());
 
             // Increment the sequence number.
             this.IncrementLastSequenceNumber();

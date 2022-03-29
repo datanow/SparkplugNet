@@ -173,7 +173,7 @@ namespace SparkplugNet.Core.Node
                 metrics,
                 this.LastSequenceNumber,
                 this.LastSessionNumber,
-                DateTimeOffset.Now);
+                DateTimeOffset.Now.ToUniversalTime());
 
             // Debug output.
             this.Logger?.Debug("NDATA Message: {@DataMessage}", dataMessage);
@@ -218,7 +218,7 @@ namespace SparkplugNet.Core.Node
                 metrics,
                 this.LastSequenceNumber,
                 this.LastSessionNumber,
-                DateTimeOffset.Now);
+                DateTimeOffset.Now.ToUniversalTime());
 
             // Debug output.
             this.Logger?.Debug("NDATA Message: {@DataMessage}", dataMessage);
@@ -439,7 +439,7 @@ namespace SparkplugNet.Core.Node
                 this.KnownMetrics,
                 this.LastSequenceNumber,
                 this.LastSessionNumber,
-                DateTimeOffset.Now);
+                DateTimeOffset.Now.ToUniversalTime());
 
             // Publish data.
             this.options.CancellationToken ??= CancellationToken.None;
